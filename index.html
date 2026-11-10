@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barista Academy · Support</title>
+<link rel="icon" href="icon.png">
+<style>
+:root{--g:#2f6f62;--ink:#2a211c;--mute:#6f625a;--bg:#faf6f0;--line:#eadfd3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+header{background:var(--g);color:#fff;padding:36px 20px 28px;text-align:center}
+header img{width:96px;height:96px;border-radius:22px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+header h1{margin:14px 0 4px;font-size:26px}
+header p{margin:0;opacity:.9}
+nav{margin-top:16px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+nav button{border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;border-radius:999px;padding:5px 13px;font:inherit;font-size:14px;cursor:pointer}
+nav button.on{background:#fff;color:var(--g);border-color:#fff;font-weight:600}
+main{max-width:640px;margin:0 auto;padding:24px 20px 48px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:14px}
+.card h2{margin:0 0 6px;font-size:17px;color:var(--g)}
+.card p{margin:0}
+a{color:var(--g)}
+.btn{display:inline-block;margin-top:10px;background:var(--g);color:#fff;text-decoration:none;padding:9px 18px;border-radius:999px;font-weight:600}
+footer{color:var(--mute);font-size:13px;text-align:center;margin-top:20px}
+</style>
+</head>
+<body>
+<header>
+  <img src="icon.png" alt="">
+  <h1 id="t-app">Barista Academy</h1>
+  <p id="t-tag"></p>
+  <nav id="nav"></nav>
+</header>
+<main>
+  <div class="card"><h2 id="t-h1"></h2><p id="t-p1"></p><a class="btn mail" href="#"></a></div>
+  <div class="card"><h2 id="t-h2"></h2><p id="t-p2"></p></div>
+  <div class="card"><h2 id="t-h3"></h2><p id="t-p3"></p></div>
+  <div class="card"><h2 id="t-h4"></h2><p><a id="t-priv" href="privacy.html"></a></p></div>
+  <footer>© 2026 Alper Aykut</footer>
+</main>
+<script>
+/* ↓↓↓ Tek değiştirmen gereken satır: iletişim e-postası ↓↓↓ */
+const EMAIL = "baristaacademy.support@gmail.com";
+
+const T = {
+ en:{n:"English",app:"Barista Academy",tag:"A game for learning real coffee recipes.",
+  h1:"Contact & support",p1:"For questions, bug reports or purchase-related issues, please contact the developer by e-mail. All requests are answered as soon as possible.",
+  h2:"Restoring purchases",p2:"After reinstalling the application or changing devices, purchases can be restored by opening Settings in the application and selecting “Restore purchases”. The same Apple ID used for the original purchase must be signed in.",
+  h3:"Progress and data",p3:"Game progress is stored exclusively on the device. Removing the application also deletes the saved progress.",
+  h4:"Privacy",priv:"Privacy Policy"},
+ tr:{n:"Türkçe",app:"Barista Akademi",tag:"Gerçek kahve tariflerini öğreten bir oyun.",
+  h1:"İletişim ve destek",p1:"Sorular, hata bildirimleri ve satın alımlarla ilgili sorunlar için geliştiriciyle e-posta yoluyla iletişime geçebilirsiniz. Tüm taleplere en kısa sürede yanıt verilmektedir.",
+  h2:"Satın alımları geri yükleme",p2:"Uygulamanın yeniden yüklenmesi veya cihaz değişikliği sonrasında satın alımlar, uygulama içindeki Ayarlar bölümünden “Satın alımları geri yükle” seçilerek geri yüklenebilir. Bunun için satın alımda kullanılan Apple kimliğiyle oturum açılmış olması gerekmektedir.",
+  h3:"İlerleme ve veriler",p3:"Oyun ilerlemesi yalnızca cihazda saklanmaktadır. Uygulamanın silinmesi hâlinde kayıtlı ilerleme de silinir.",
+  h4:"Gizlilik",priv:"Gizlilik Politikası"},
+ es:{n:"Español",app:"Barista Academy",tag:"Un juego para aprender recetas de café reales.",
+  h1:"Contacto y soporte",p1:"Para consultas, notificación de errores o incidencias relacionadas con compras, puede ponerse en contacto con el desarrollador por correo electrónico. Todas las solicitudes se atienden a la mayor brevedad posible.",
+  h2:"Restaurar compras",p2:"Tras reinstalar la aplicación o cambiar de dispositivo, las compras pueden restaurarse abriendo los Ajustes de la aplicación y seleccionando “Restaurar compras”. Es necesario haber iniciado sesión con el mismo Apple ID utilizado en la compra original.",
+  h3:"Progreso y datos",p3:"El progreso del juego se almacena exclusivamente en el dispositivo. Al desinstalar la aplicación, también se elimina el progreso guardado.",
+  h4:"Privacidad",priv:"Política de privacidad"},
+ it:{n:"Italiano",app:"Barista Academy",tag:"Un gioco per imparare vere ricette di caffè.",
+  h1:"Contatti e assistenza",p1:"Per domande, segnalazioni di errori o problemi relativi agli acquisti è possibile contattare lo sviluppatore via e-mail. Tutte le richieste ricevono risposta nel più breve tempo possibile.",
+  h2:"Ripristinare gli acquisti",p2:"Dopo la reinstallazione dell’applicazione o il cambio di dispositivo, gli acquisti possono essere ripristinati aprendo le Impostazioni dell’applicazione e selezionando “Ripristina acquisti”. È necessario aver effettuato l’accesso con lo stesso ID Apple utilizzato per l’acquisto originale.",
+  h3:"Progressi e dati",p3:"I progressi di gioco sono memorizzati esclusivamente sul dispositivo. La disinstallazione dell’applicazione comporta anche l’eliminazione dei progressi salvati.",
+  h4:"Privacy",priv:"Informativa sulla privacy"}
+};
+document.querySelectorAll("a.mail").forEach(a=>{a.href="mailto:"+EMAIL;a.textContent=EMAIL});
+function pick(){
+  const q=new URLSearchParams(location.search).get("lang");
+  if(q&&T[q])return q;
+  for(const l of (navigator.languages||[navigator.language||"en"])){const c=(l||"").slice(0,2).toLowerCase();if(T[c])return c}
+  return "en";
+}
+function set(l){
+  const d=T[l];document.documentElement.lang=l;
+  for(const k of ["app","tag","h1","p1","h2","p2","h3","p3","h4","priv"])document.getElementById("t-"+k).textContent=d[k];
+  document.getElementById("t-priv").href="privacy.html?lang="+l;
+  document.title=d.app+" · "+d.h1;
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.k===l));
+  history.replaceState(null,"","?lang="+l);
+}
+const nav=document.getElementById("nav");
+for(const k in T){const b=document.createElement("button");b.textContent=T[k].n;b.dataset.k=k;b.onclick=()=>set(k);nav.appendChild(b)}
+set(pick());
+</script>
+</body>
+</html>
