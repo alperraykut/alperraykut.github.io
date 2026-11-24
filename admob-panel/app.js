@@ -282,8 +282,8 @@
     let h = `<div style="flex:none;padding:16px 20px 0;display:flex;flex-direction:column;gap:12px">
       <div style="display:flex;flex-direction:column;gap:4px">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-          <h1 style="margin:0;font-size:26px;font-weight:700;letter-spacing:-0.02em;font-family:${t.headStack}">Kazançlar</h1>
-          <div style="display:flex;align-items:center;gap:8px">
+          <h1 style="margin:0;font-size:24px;font-weight:700;letter-spacing:-0.02em;font-family:${t.headStack};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Kazançlar</h1>
+          <div style="display:flex;align-items:center;gap:8px;flex:none">
             <button data-act="refresh" aria-label="Verileri yenile" style="${iconBtn}"><span class="${S.loading ? 'spin' : ''}" style="display:flex">${ICON_REFRESH}</span></button>
             <button data-act="themes" aria-label="Tema seç" style="${iconBtn}">${ICON_PALETTE}</button>
             <div style="display:flex;background:${t.chip};border-radius:${t.rs}px;padding:3px;gap:2px">
@@ -295,7 +295,7 @@
       </div>
       <div style="${card};padding:14px;display:flex;flex-direction:column;gap:12px">
         <div style="display:flex;gap:4px;background:${t.seg};border-radius:${t.rs}px;padding:4px">
-          ${Object.keys(PERIODS).map((k) => `<button data-period="${k}" aria-pressed="${k === S.period}" style="flex:1;min-height:44px;border:0;border-radius:${Math.max(3, t.rs - 4)}px;font-size:13px;font-weight:700;background:${k === S.period ? t.accent : 'transparent'};color:${k === S.period ? t.onAccent : t.segOff}">${PERIODS[k].label}</button>`).join('')}
+          ${Object.keys(PERIODS).map((k) => `<button data-period="${k}" aria-pressed="${k === S.period}" style="flex:1 1 0;min-width:0;white-space:nowrap;min-height:44px;border:0;border-radius:${Math.max(3, t.rs - 4)}px;font-size:13px;font-weight:700;background:${k === S.period ? t.accent : 'transparent'};color:${k === S.period ? t.onAccent : t.segOff}">${PERIODS[k].label}</button>`).join('')}
         </div>
         <div style="display:flex;flex-direction:column;gap:2px">
           <div style="font-size:13px;color:${t.muted}">${P.hero}</div>
@@ -304,7 +304,7 @@
         </div>
       </div>
       <div role="tablist" style="display:flex;gap:2px;border-bottom:1px solid ${t.border}">
-        ${[['ozet', 'Özet'], ['apps', 'Uygulamalar'], ['countries', 'Ülkeler'], ['hours', 'Saatler']].map((x) => `<button role="tab" data-tab="${x[0]}" aria-selected="${S.tab === x[0]}" style="flex:1;min-height:48px;border:0;background:transparent;border-bottom:3px solid ${S.tab === x[0] ? t.accent : 'transparent'};margin-bottom:-1px;font-size:15px;font-weight:700;font-family:${t.headStack};color:${S.tab === x[0] ? t.text : t.muted}">${x[1]}</button>`).join('')}
+        ${[['ozet', 'Özet'], ['apps', 'Uygulamalar'], ['countries', 'Ülkeler'], ['hours', 'Saatler']].map((x) => `<button role="tab" data-tab="${x[0]}" aria-selected="${S.tab === x[0]}" style="flex:1 1 auto;min-width:0;padding:0 4px;white-space:nowrap;min-height:48px;border:0;background:transparent;border-bottom:3px solid ${S.tab === x[0] ? t.accent : 'transparent'};margin-bottom:-1px;font-size:14px;font-weight:700;font-family:${t.headStack};color:${S.tab === x[0] ? t.text : t.muted}">${x[1]}</button>`).join('')}
       </div>
     </div>
     <div class="scroll">`;
@@ -343,9 +343,9 @@
       ['Gösterim TO', pctf(m.clk / m.imp, 2)],
       ['Eşleşme oranı', pctf(m.mat / m.req, 1)],
       ['Gösterim oranı', pctf(m.imp / m.mat, 1)]
-    ].map((x) => `<div style="${card.replace(t.r + 'px', t.rs + 'px')};padding:9px 12px;display:flex;flex-direction:column;gap:2px"><div style="font-size:12px;color:${t.muted}">${x[0]}</div><div style="font-size:18px;font-weight:700">${x[1]}</div></div>`).join('');
+    ].map((x) => `<div style="${card.replace(t.r + 'px', t.rs + 'px')};padding:9px 12px;display:flex;flex-direction:column;gap:2px;min-width:0"><div style="font-size:12px;color:${t.muted};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${x[0]}</div><div style="font-size:18px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${x[1]}</div></div>`).join('');
     return `<div class="chips">${chips}</div>
-      <div style="background:${t.heroBg};color:${t.heroText};border-radius:${t.r}px;padding:14px 16px;display:flex;justify-content:space-between;align-items:baseline;gap:8px">
+      <div style="background:${t.heroBg};color:${t.heroText};border-radius:${t.r}px;padding:14px 16px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px">
         <div style="font-size:12px;color:${t.heroMuted}">${A ? esc(A.name) + ' · toplam kazanç' : 'Şu ana kadar toplam kazanç'}</div>
         <div style="font-size:26px;font-weight:700;letter-spacing:-0.02em;font-family:${t.headStack}">${money(life.e)}</div>
       </div>

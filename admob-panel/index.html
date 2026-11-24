@@ -23,7 +23,8 @@ button { font: inherit; cursor: pointer; }
 #app { height: 100dvh; max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; overflow: hidden; position: relative;
   padding-top: env(safe-area-inset-top); }
 .scroll { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 14px 20px calc(20px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 10px; }
-.chips { display: flex; gap: 6px; overflow-x: auto; margin: -4px -20px 0; padding: 0 20px; scrollbar-width: none; }
+.scroll > * { flex: none; }
+.chips { display: flex; gap: 6px; overflow-x: auto; margin: -2px -20px 0; padding: 2px 20px; scrollbar-width: none; flex: none; }
 .chips::-webkit-scrollbar { display: none; }
 .spin { animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
