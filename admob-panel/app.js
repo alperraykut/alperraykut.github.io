@@ -214,9 +214,10 @@
     S.apps = [
       { id: 'demo1', name: 'Barista Akademi', platform: 'iOS', icon: null },
       { id: 'demo2', name: 'Suşi Akademi', platform: 'iOS', icon: null },
-      { id: 'demo3', name: 'Pizza Akademi', platform: 'iOS', icon: null }
+      { id: 'demo3', name: 'Pizza Akademi', platform: 'iOS', icon: null },
+      { id: 'demo4', name: 'Barista Akademi', platform: 'Android', icon: null }
     ];
-    const share = { demo1: [0.74, 0.70], demo2: [0.17, 0.19], demo3: [0.09, 0.11] };
+    const share = { demo1: [0.50, 0.46], demo4: [0.24, 0.24], demo2: [0.17, 0.19], demo3: [0.09, 0.11] };
     const t = today0(); S.daily = {}; S.lifetime = {};
     for (let i = 0; i < 60; i++) {
       const d = addDays(t, -i), base = 3.2 + Math.sin(i * 1.7) * 0.6 + (60 - i) * 0.012;
@@ -253,8 +254,15 @@
       headStack: "'" + b.head + "', system-ui, sans-serif"
     });
   }
+  function pBadge(a, t, on) {
+    if (!a || !a.platform) return '';
+    const ios = a.platform === 'iOS';
+    const bg = on ? t.onAccent : (ios ? t.chip : t.tagBg), fg = on ? t.accent : (ios ? t.text : t.tagFg);
+    return `<span style="flex:none;font-size:10px;font-weight:700;line-height:1;padding:3px 6px;border-radius:6px;background:${bg};color:${fg}">${esc(a.platform)}</span>`;
+  }
   function appIcon(a, size, t, on) {
     const r = Math.round(size * 0.27);
+    if (a && !a.icon) { const twin = S.apps.find((o) => o.icon && o.name === a.name); if (twin) a = Object.assign({}, a, { icon: twin.icon }); }
     if (a && a.icon) return `<img class="appicon" src="${esc(a.icon)}" alt="" width="${size}" height="${size}" style="width:${size}px;height:${size}px;border-radius:${r}px;flex:none">`;
     const bg = on ? t.onAccent : t.chip, fg = on ? t.accent : t.text;
     return `<span aria-hidden="true" style="width:${size}px;height:${size}px;flex:none;border-radius:${r}px;background:${bg};color:${fg};display:flex;align-items:center;justify-content:center;font-size:${Math.round(size * 0.42)}px;font-weight:800">${esc((a ? a.name : '?').charAt(0))}</span>`;
@@ -320,6 +328,8 @@
 
     if (S.showThemes) h += themeSheet(t);
     root.innerHTML = h;
+    const on = root.querySelector('.chips button[aria-pressed="true"]');
+    if (on) { const c = on.parentElement; c.scrollLeft = Math.max(0, on.offsetLeft - 20 - c.offsetLeft + 0); }
   }
 
   function ozet(t, r, card) {
@@ -332,7 +342,7 @@
       const ic = a.id === 'all'
         ? `<span style="width:28px;height:28px;flex:none;border-radius:8px;background:${on ? t.onAccent : t.chip};color:${on ? t.accent : t.text};display:flex;align-items:center;justify-content:center">${ICON_ALL}</span>`
         : appIcon(a, 28, t, on);
-      return `<button data-app="${esc(a.id)}" aria-pressed="${on}" style="flex:none;min-height:40px;padding:0 14px 0 5px;display:flex;align-items:center;gap:8px;border:1px solid ${on ? t.accent : t.border};border-radius:999px;background:${on ? t.accent : t.surface};color:${on ? t.onAccent : t.text};font-size:13px;font-weight:700">${ic}${esc(a.name)}</button>`;
+      return `<button data-app="${esc(a.id)}" aria-pressed="${on}" style="flex:none;min-height:40px;padding:0 14px 0 5px;display:flex;align-items:center;gap:8px;border:1px solid ${on ? t.accent : t.border};border-radius:999px;background:${on ? t.accent : t.surface};color:${on ? t.onAccent : t.text};font-size:13px;font-weight:700">${ic}${esc(a.name)}${a.id === 'all' ? '' : pBadge(a, t, on)}</button>`;
     }).join('');
     const tiles = [
       ['Tahmini kazanç', money(m.e)],
@@ -346,7 +356,7 @@
     ].map((x) => `<div style="${card.replace(t.r + 'px', t.rs + 'px')};padding:9px 12px;display:flex;flex-direction:column;gap:2px;min-width:0"><div style="font-size:12px;color:${t.muted};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${x[0]}</div><div style="font-size:18px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${x[1]}</div></div>`).join('');
     return `<div class="chips">${chips}</div>
       <div style="background:${t.heroBg};color:${t.heroText};border-radius:${t.r}px;padding:14px 16px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px">
-        <div style="font-size:12px;color:${t.heroMuted}">${A ? esc(A.name) + ' · toplam kazanç' : 'Şu ana kadar toplam kazanç'}</div>
+        <div style="font-size:12px;color:${t.heroMuted}">${A ? esc(A.name) + (A.platform ? ' (' + esc(A.platform) + ')' : '') + ' · toplam kazanç' : 'Şu ana kadar toplam kazanç'}</div>
         <div style="font-size:26px;font-weight:700;letter-spacing:-0.02em;font-family:${t.headStack}">${money(life.e)}</div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">${tiles}</div>`;
@@ -364,9 +374,9 @@
       <button data-app-open="${esc(x.a.id)}" style="border:0;background:transparent;padding:0;color:inherit;text-align:left;display:flex;align-items:center;gap:12px">
         ${appIcon(x.a, 44, t, false)}
         <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.a.name)}</span><span style="font-size:15px;font-weight:700;flex:none">${money(x.m.e)}</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="min-width:0;display:flex;align-items:center;gap:6px"><span style="font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.a.name)}</span>${pBadge(x.a, t, false)}</span><span style="font-size:15px;font-weight:700;flex:none">${money(x.m.e)}</span></div>
           ${bar(x.m.e / max * 100, t, 6)}
-          <div style="font-size:12px;color:${t.muted}">${nf(x.m.imp, 0)} gösterim${x.a.platform ? ' · ' + x.a.platform : ''}</div>
+          <div style="font-size:12px;color:${t.muted}">${nf(x.m.imp, 0)} gösterim</div>
         </div>
       </button>`).join('')}</div>`;
   }
@@ -376,7 +386,7 @@
     const data = S.countries[key];
     const chips = [{ id: 'all', name: 'Tümü' }].concat(S.apps).map((a) => {
       const on = S.app === a.id;
-      return `<button data-app="${esc(a.id)}" aria-pressed="${on}" style="flex:none;min-height:36px;padding:0 12px;border:1px solid ${on ? t.accent : t.border};border-radius:999px;background:${on ? t.accent : t.surface};color:${on ? t.onAccent : t.text};font-size:13px;font-weight:700">${esc(a.name)}</button>`;
+      return `<button data-app="${esc(a.id)}" aria-pressed="${on}" style="flex:none;min-height:36px;padding:0 12px;border:1px solid ${on ? t.accent : t.border};border-radius:999px;background:${on ? t.accent : t.surface};color:${on ? t.onAccent : t.text};display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700">${esc(a.name)}${a.id === 'all' ? '' : pBadge(a, t, on)}</button>`;
     }).join('');
     if (!data) return `<div class="chips">${chips}</div><div style="${card};padding:18px;font-size:14px;color:${t.muted}">Yükleniyor…</div>`;
     const agg = {};

@@ -1,5 +1,5 @@
 // Uygulama dosyalarını önbelleğe alır; AdMob verisi her zaman ağdan gelir.
-const CACHE = 'kazanc-v3';
+const CACHE = 'kazanc-v4';
 const FILES = ['./', './index.html', './app.js', './themes.js', './config.js', './manifest.json', './icons/icon-192.png', './icons/icon-180.png'];
 
 self.addEventListener('install', (e) => {
